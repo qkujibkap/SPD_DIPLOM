@@ -29,7 +29,6 @@ project/
 │── favorites.py         # Работа с избранным (favorites.json)
 │── config.py            # Настройки и токены
 │── favorites.json       # Хранилище избранных пользователей
-│── DATA_SCHEMA.md       # Документация по структуре хранимых данных
 │── README.md            # Описание проекта
 ```
 
