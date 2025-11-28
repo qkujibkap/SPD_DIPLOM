@@ -1,6 +1,6 @@
 # bot.py
 import random
-from datetime import datetime, date
+from datetime import date
 
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
@@ -20,20 +20,24 @@ user_vk = user_session.get_api()
 client = VKClient(user_vk)
 
 running = True
-shown_users: set[int] = set()         # уже показанные пользователи
-last_shown_user: dict[int, dict] = {} # последний показанный пользователь для каждого peer_id
-user_filters: dict[int, dict] = {}    # кэш параметров поиска по пользователям
+shown_users: set[int] = set()  # уже показанные пользователи
+last_shown_user: dict[int, dict] = {}  # последний показанный пользователь для каждого peer_id
+user_filters: dict[int, dict] = {}  # кэш параметров поиска по пользователям
 
 
 def make_keyboard() -> str:
     """Создаёт клавиатуру для бота."""
     keyboard = VkKeyboard(one_time=False)
-    keyboard.add_button("Следующий", color=VkKeyboardColor.POSITIVE)
-    keyboard.add_button("В избранное", color=VkKeyboardColor.NEGATIVE)
+    keyboard.add_button("Следующий",
+                        color=VkKeyboardColor.POSITIVE)
+    keyboard.add_button("В избранное",
+                        color=VkKeyboardColor.NEGATIVE)
     keyboard.add_line()
-    keyboard.add_button("Показать избранных", color=VkKeyboardColor.SECONDARY)
+    keyboard.add_button("Показать избранных",
+                        color=VkKeyboardColor.SECONDARY)
     keyboard.add_line()
-    keyboard.add_button("Стоп", color=VkKeyboardColor.NEGATIVE)
+    keyboard.add_button("Стоп",
+                        color=VkKeyboardColor.NEGATIVE)
     return keyboard.get_keyboard()
 
 
@@ -51,7 +55,7 @@ def calculate_age(bdate_str: str | None) -> int | None:
         born = date(year, month, day)
         today = date.today()
         age = today.year - born.year - (
-            (today.month, today.day) < (born.month, born.day)
+                (today.month, today.day) < (born.month, born.day)
         )
         return age
     except ValueError:
