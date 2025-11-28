@@ -20,9 +20,12 @@ user_vk = user_session.get_api()
 client = VKClient(user_vk)
 
 running = True
-shown_users: set[int] = set()  # уже показанные пользователи
-last_shown_user: dict[int, dict] = {}  # последний показанный пользователь для каждого peer_id
-user_filters: dict[int, dict] = {}  # кэш параметров поиска по пользователям
+# уже показанные пользователи
+shown_users: set[int] = set()
+# последний показанный пользователь для каждого peer_id
+last_shown_user: dict[int, dict] = {}
+# кэш параметров поиска по пользователям
+user_filters: dict[int, dict] = {}
 
 
 def make_keyboard() -> str:
@@ -131,7 +134,8 @@ def run_bot() -> None:
     try:
         while running:
             for event in longpoll.listen():
-                if event.type != VkBotEventType.MESSAGE_NEW or not event.from_user:
+                if (event.type != VkBotEventType.MESSAGE_NEW
+                        or not event.from_user):
                     continue
 
                 peer_id = event.message.peer_id
@@ -246,11 +250,8 @@ def run_bot() -> None:
                         else:
                             lines = []
                             for u in favorites:
-                                line = (
-                                    f"{u.get('first_name', '')} "
-                                    f"{u.get('last_name', '')} — "
-                                    f"{u.get('profile_url', f'https://vk.com/id{u.get('id')}')}"
-                                )
+                                profile_url = u.get("profile_url") or f"https://vk.com/id{u.get('id')}"
+                                line = f"{u.get('first_name', '')} {u.get('last_name', '')} — {profile_url}"
                                 lines.append(line)
                             msg = "⭐ Избранные:\n" + "\n".join(lines)
 
@@ -290,12 +291,14 @@ def run_bot() -> None:
 
                 except Exception as exc:
                     # общая защита от падений внутри обработки сообщения
-                    print(f"Ошибка при обработке сообщения от {peer_id}: {exc}")
+                    print(f"Ошибка при обработке сообщения от "
+                          f"{peer_id}: {exc}")
                     try:
                         vk.messages.send(
                             peer_id=peer_id,
                             random_id=0,
-                            message="Произошла ошибка, попробуйте ещё раз позже 🙃",
+                            message="Произошла ошибка, "
+                                    "попробуйте ещё раз позже 🙃",
                             keyboard=make_keyboard(),
                         )
                     except Exception:
