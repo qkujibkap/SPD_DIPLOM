@@ -250,8 +250,13 @@ def run_bot() -> None:
                         else:
                             lines = []
                             for u in favorites:
-                                profile_url = u.get("profile_url") or f"https://vk.com/id{u.get('id')}"
-                                line = f"{u.get('first_name', '')} {u.get('last_name', '')} — {profile_url}"
+                                profile_url = (u.get("profile_url")
+                                               or
+                                               f"https://vk.com/id"
+                                               f"{u.get('id')}")
+                                line = (f"{u.get('first_name', '')} "
+                                        f"{u.get('last_name', '')} "
+                                        f"— {profile_url}")
                                 lines.append(line)
                             msg = "⭐ Избранные:\n" + "\n".join(lines)
 

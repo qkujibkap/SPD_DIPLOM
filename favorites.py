@@ -2,8 +2,7 @@ import json
 import os
 from datetime import datetime
 from typing import List, Dict, Any
-
-FAVORITES_FILE = "favorites.json"
+from config import FAVORITES_FILE
 
 
 def _ensure_file_exists() -> None:
