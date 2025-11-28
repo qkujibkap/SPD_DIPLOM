@@ -7,12 +7,12 @@ class VKClient:
         self.vk = vk
 
     def search_users(
-        self,
-        sex: int | None = None,
-        city_id: int | None = None,
-        age_from: int | None = None,
-        age_to: int | None = None,
-        offset: int = 0,
+            self,
+            sex: int | None = None,
+            city_id: int | None = None,
+            age_from: int | None = None,
+            age_to: int | None = None,
+            offset: int = 0,
     ) -> List[Dict[str, Any]]:
         """
         Поиск пользователей по параметрам:
